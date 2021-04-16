@@ -1,0 +1,15 @@
+{
+  "type": "record",
+  "name": "CheckoutCreatedEvent",
+  "namespace": "br.muller.ecommerce.checkoutapi.event",
+  "fields": [
+    {
+      "name": "checkoutCode",
+      "type": ["string"]
+    },
+    {
+      "name": "status",
+      "type": ["string"]
+    }
+  ]
+}

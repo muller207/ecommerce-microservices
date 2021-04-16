@@ -1,0 +1,54 @@
+plugins {
+	id 'com.commercehub.gradle.plugin.avro' version '0.99.99'
+	id 'org.springframework.boot' version '2.4.3'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+group = 'br.muller.ecommerce'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '8'
+
+repositories {
+	mavenCentral()
+	maven{
+		url 'https://packages.confluent.io/maven/'
+	}
+}
+
+ext {
+	set('springCloudVersion', "2020.0.1")
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.apache.kafka:kafka-streams'
+	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+	implementation 'org.springframework.cloud:spring-cloud-stream'
+	implementation 'org.springframework.cloud:spring-cloud-stream-binder-kafka'
+	implementation 'org.springframework.cloud:spring-cloud-stream-binder-kafka-streams'
+	implementation group: 'io.confluent', name: 'kafka-avro-serializer', version: '5.5.0'
+	runtimeOnly group: 'org.postgresql', name: 'postgresql'
+	compileOnly group: 'org.projectlombok', name: 'lombok'
+	annotationProcessor group: 'org.projectlombok', name: 'lombok'
+	testImplementation ('org.springframework.boot:spring-boot-starter-test')
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+test {
+	useJUnitPlatform()
+}
+
+avro {
+	fieldVisibility = 'PRIVATE'
+}
+
+generateAvroJava {
+	source 'src/main/resources/avro'
+}
